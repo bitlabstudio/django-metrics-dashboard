@@ -83,6 +83,18 @@ do the following::
     $ ./manage.py schemamigration metrics_dashboard --auto
 
 
+Compiling the CSS files
+-----------------------
+
+If you want to make changes to the CSS files, please edit the files
+``metrics-dashboard-variables.less``, ``styles.less`` and
+``responsive-styles.less``. Then run ``fab lessc`` from the root of the
+project.
+
+If you want to setup a file system watcher and compile the ``.css`` files
+automagically, just execute ``./watchmedo-less.sh``.
+
+
 Discuss
 -------
 

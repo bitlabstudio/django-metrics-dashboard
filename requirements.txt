@@ -24,3 +24,4 @@ django-coverage==1.2.2
 django-jasmine==0.3.2
 selenium==2.28.0
 factory_boy==1.2.0
+watchdog==0.6.0
