@@ -2,6 +2,9 @@
 import os
 
 
+DEBUG = True
+
+
 PROJECT_ROOT = os.path.dirname(__file__)
 
 
