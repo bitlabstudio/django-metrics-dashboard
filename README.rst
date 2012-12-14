@@ -1,6 +1,8 @@
 Django Metrics Dashboard
 ========================
 
+DO NOT USE THIS! THIS IS AN EARLY ALPHA AND DOES NOT WORK!
+
 A reusable Django app that allows you to display a dashboard with any number
 of widgets to show any data you care about. The widets are updated via
 socket.io, so you never need to refresh your dashboard.
