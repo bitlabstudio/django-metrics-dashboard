@@ -1,0 +1,8 @@
+include AUTHORS
+include LICENSE
+include DESCRIPTION
+include CHANGELOG.txt
+include README.md
+graft metrics_dashboard
+prune metrics_dashboard/tests/coverage/
+recursive-exclude metrics_dashboard *.orig *.pyc
