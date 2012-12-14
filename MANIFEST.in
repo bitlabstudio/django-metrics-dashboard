@@ -4,5 +4,7 @@ include DESCRIPTION
 include CHANGELOG.txt
 include README.md
 graft metrics_dashboard
-prune metrics_dashboard/tests/coverage/
-recursive-exclude metrics_dashboard *.orig *.pyc
+graft fabfile 
+prune metrics_dashboard/tests/coverage
+recursive-exclude metrics_dashboard *.orig *.pyc .ropeproject
+recursive-exclude fabfile *.orig *.pyc fabric_settings.py
