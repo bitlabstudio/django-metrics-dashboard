@@ -21,6 +21,15 @@ class DashboardWidgetPool(object):
         self.widgets = {}
 
     def register_widget(self, widget_cls):
+        """
+        Registers the given widget.
+
+        Widgets must inherit ``DashboardWidgetBase`` and you cannot register
+        the same widget twice.
+
+        :widget_cls: A class that inherits ``DashboardWidgetBase``.
+
+        """
         if not issubclass(widget_cls, DashboardWidgetBase):
             raise ImproperlyConfigured(
                 'DashboardWidgets must be subclasses of DashboardWidgetBase,'
@@ -33,6 +42,11 @@ class DashboardWidgetPool(object):
                 'registered.'.format(widget_cls, widget_name))
 
         self.widgets[widget_name] = widget_cls
+
+    def unregister_widget(self, widget_cls):
+        """Unregisters the given widget."""
+        if widget_cls.__name__ in self.widgets:
+            del self.widgets[widget_cls.__name__]
 
 
 dashboard_widget_pool = DashboardWidgetPool()
