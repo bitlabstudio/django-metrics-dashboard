@@ -8,5 +8,9 @@ from django.conf.urls.defaults import include, patterns, url
 
 
 urlpatterns = patterns('',
+    url(r'^accounts/login/$',
+        'django.contrib.auth.views.login',
+        name='auth_login'),
+
     url(r'^', include('metrics_dashboard.urls')),
 )

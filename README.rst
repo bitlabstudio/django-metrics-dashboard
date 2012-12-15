@@ -45,8 +45,22 @@ Run the south migrations to create the app's database tables::
     $ ./manage.py migrate metrics_dashboard
 
 
+Settings
+--------
+
+DASHBOARD_REQUIRE_LOGIN
++++++++++++++++++++++++
+
+*Default*: ``True``
+
+When you set this to false, anyone can access the dashboard. If you are
+displaying sensitive metrics, you might want to leave this at ``True``.
+
+
 Usage
 -----
+
+For now: Install it and go visit the URL :) More features coming soon.
 
 
 Contribute

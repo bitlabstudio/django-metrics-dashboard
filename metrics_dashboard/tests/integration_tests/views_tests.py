@@ -10,3 +10,6 @@ class DasboardViewTestCase(ViewTestMixin, TestCase):
 
     def test_view(self):
         self.should_be_callable_when_anonymous()
+
+        with self.settings(DASHBOARD_REQUIRE_LOGIN=True):
+            self.should_redirect_to_login_when_anonymous()
