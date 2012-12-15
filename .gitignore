@@ -1,6 +1,7 @@
 *.pyc
 *.egg-info/
 coverage/
+db.sqlite
 dist/
 docs/build/
 fabric_settings.py
