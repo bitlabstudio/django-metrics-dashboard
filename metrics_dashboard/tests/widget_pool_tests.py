@@ -3,16 +3,11 @@ from django.test import TestCase
 
 from django.core.exceptions import ImproperlyConfigured
 from metrics_dashboard.exceptions import WidgetAlreadyRegistered
-from metrics_dashboard.widget_base import DashboardWidgetBase
+from metrics_dashboard.tests.test_app.dashboard_widgets import DummyWidget
 from metrics_dashboard.widget_pool import (
     DashboardWidgetPool,
     dashboard_widget_pool,
 )
-
-
-class DummyWidget(DashboardWidgetBase):
-    """This widget can be registered for testing purposes."""
-    pass
 
 
 class FalseWidget(object):
@@ -26,9 +21,14 @@ class FalseWidget(object):
 
 
 class WidgetTestCaseMixin(object):
-    def tearDown(self):
-        # unregister all widgets
+    """
+    Mixin that makes sure to unregister widgets leftover from other tests.
+
+    """
+    def _unregister_widgets(self):
+        # unregister all widgets that might be leftover from other tests
         dashboard_widget_pool.widgets = {}
+        dashboard_widget_pool.discovered = False
 
 
 class DashboardWidgetPoolTestCase(WidgetTestCaseMixin, TestCase):
@@ -47,7 +47,9 @@ class DashboardWidgetPoolTestCase(WidgetTestCaseMixin, TestCase):
 
     def test_register_false_widget(self):
         """
-        Should raise exception if the widget not inherit `DashboardWidgetBase`
+        register_widget should raise exception if widget does not inherit
+
+        ``DashboardWidgetBase``.
 
         """
         self.assertRaises(
@@ -55,12 +57,17 @@ class DashboardWidgetPoolTestCase(WidgetTestCaseMixin, TestCase):
             FalseWidget)
 
     def test_register_widget(self):
-        """Should add the widget to ``self.widgets``."""
+        """register_widget should add the widget to ``self.widgets``."""
+        self._unregister_widgets()
         dashboard_widget_pool.register_widget(DummyWidget)
         self.assertTrue('DummyWidget' in dashboard_widget_pool.widgets)
 
     def test_register_already_registered(self):
-        """Should raise exception if the widget is already registered."""
+        """
+        register_widget should raise exception if widget is already registered.
+
+        """
+        self._unregister_widgets()
         dashboard_widget_pool.register_widget(DummyWidget)
         self.assertRaises(
             WidgetAlreadyRegistered, dashboard_widget_pool.register_widget,
@@ -68,9 +75,36 @@ class DashboardWidgetPoolTestCase(WidgetTestCaseMixin, TestCase):
 
     def test_unregister_widget(self):
         """
-        When unregistering a widget it should be removed from ``self.widgets``.
+        unregister_widget should be remove the widget from ``self.widgets``.
 
         """
+        self._unregister_widgets()
         dashboard_widget_pool.register_widget(DummyWidget)
         dashboard_widget_pool.unregister_widget(DummyWidget)
         self.assertEqual(dashboard_widget_pool.widgets, {})
+
+    def test_discover_widgets(self):
+        """
+        discover_widgets Should find widgets in INSTALLED_APPS.
+
+        When called again, it should not nothing.
+
+        """
+        self._unregister_widgets()
+        dashboard_widget_pool.discover_widgets()
+        self.assertTrue('DummyWidget' in dashboard_widget_pool.widgets)
+
+        dashboard_widget_pool.discover_widgets()
+        self.assertTrue('DummyWidget' in dashboard_widget_pool.widgets)
+
+    def test_get_widgets(self):
+        """
+        get_widgets should discover widgets and return them.
+
+        This test doesn't really test the thing. Because we import DummyWidget
+        in this file, the widget already gets added to the pool before this
+        test is executed. Calling ``get_widgets`` in this test will do nothing.
+
+        """
+        widgets = dashboard_widget_pool.get_widgets()
+        self.assertTrue('DummyWidget' in widgets)

@@ -57,6 +57,7 @@ EXTERNAL_APPS = [
 
 INTERNAL_APPS = [
     'metrics_dashboard',
+    'test_app',
 ]
 
 INSTALLED_APPS = EXTERNAL_APPS + INTERNAL_APPS

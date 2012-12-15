@@ -1,6 +1,8 @@
 """Widget Pool for the ``django-metrics-dashboard`` app."""
 from django.core.exceptions import ImproperlyConfigured
 
+from django_load.core import load
+
 from metrics_dashboard.exceptions import WidgetAlreadyRegistered
 from metrics_dashboard.widget_base import DashboardWidgetBase
 
@@ -19,6 +21,25 @@ class DashboardWidgetPool(object):
     """
     def __init__(self):
         self.widgets = {}
+        self.discovered = False
+
+    def discover_widgets(self):
+        """
+        Searches for widgets in all INSTALLED_APPS.
+
+        This will be called when you call ``get_all_widgets`` for the first
+        time.
+
+        """
+        if self.discovered:
+            return
+        load('dashboard_widgets')
+        self.discovered = True
+
+    def get_widgets(self):
+        """Discovers all widgets and returns them."""
+        self.discover_widgets()
+        return self.widgets
 
     def register_widget(self, widget_cls):
         """
