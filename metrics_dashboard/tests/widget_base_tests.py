@@ -23,3 +23,8 @@ class DashboardWidgetBaseTestCase(TestCase):
         widget = DummyWidget()
         result = widget.get_name()
         self.assertEqual(result, 'DummyWidget')
+
+    def test_update_widget_data_not_implemented(self):
+        """update_widget_data should throw exception if not implemented."""
+        base = DashboardWidgetBase()
+        self.assertRaises(NotImplementedError, base.update_widget_data)

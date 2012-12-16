@@ -15,6 +15,9 @@ class DummyWidget(DashboardWidgetBase):
             'value': 'Foobar',
         }
 
+    def update_widget_data(self):
+        pass
+
 
 class DummyWidget2(DashboardWidgetBase):
     """This widget is used by the tests."""
@@ -24,6 +27,9 @@ class DummyWidget2(DashboardWidgetBase):
         return {
             'value': 'Barfoo',
         }
+
+    def update_widget_data(self):
+        pass
 
 
 dashboard_widget_pool.register_widget(DummyWidget)
