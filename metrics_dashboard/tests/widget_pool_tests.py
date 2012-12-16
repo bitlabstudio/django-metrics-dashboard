@@ -93,9 +93,11 @@ class DashboardWidgetPoolTestCase(WidgetTestCaseMixin, TestCase):
         self._unregister_widgets()
         dashboard_widget_pool.discover_widgets()
         self.assertTrue('DummyWidget' in dashboard_widget_pool.widgets)
+        self.assertTrue('DummyWidget2' in dashboard_widget_pool.widgets)
 
         dashboard_widget_pool.discover_widgets()
         self.assertTrue('DummyWidget' in dashboard_widget_pool.widgets)
+        self.assertTrue('DummyWidget2' in dashboard_widget_pool.widgets)
 
     def test_get_widgets(self):
         """

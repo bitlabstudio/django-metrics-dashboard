@@ -7,8 +7,14 @@ from metrics_dashboard.widget_pool import dashboard_widget_pool
 
 
 class DummyWidget(DashboardWidgetBase):
-    """DummyWidget implementation used by the tests."""
+    """This widget is used by the tests."""
+    pass
+
+
+class DummyWidget2(DashboardWidgetBase):
+    """This widget is used by the tests."""
     pass
 
 
 dashboard_widget_pool.register_widget(DummyWidget)
+dashboard_widget_pool.register_widget(DummyWidget2)
