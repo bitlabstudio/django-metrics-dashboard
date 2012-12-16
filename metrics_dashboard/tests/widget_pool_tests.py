@@ -3,6 +3,7 @@ from django.test import TestCase
 
 from django.core.exceptions import ImproperlyConfigured
 from metrics_dashboard.exceptions import WidgetAlreadyRegistered
+from metrics_dashboard.tests.mixins import WidgetTestCaseMixin
 from metrics_dashboard.tests.test_app.dashboard_widgets import DummyWidget
 from metrics_dashboard.widget_pool import (
     DashboardWidgetPool,
@@ -18,17 +19,6 @@ class FalseWidget(object):
 
     """
     pass
-
-
-class WidgetTestCaseMixin(object):
-    """
-    Mixin that makes sure to unregister widgets leftover from other tests.
-
-    """
-    def _unregister_widgets(self):
-        # unregister all widgets that might be leftover from other tests
-        dashboard_widget_pool.widgets = {}
-        dashboard_widget_pool.discovered = False
 
 
 class DashboardWidgetPoolTestCase(WidgetTestCaseMixin, TestCase):
@@ -83,14 +73,16 @@ class DashboardWidgetPoolTestCase(WidgetTestCaseMixin, TestCase):
         dashboard_widget_pool.unregister_widget(DummyWidget)
         self.assertEqual(dashboard_widget_pool.widgets, {})
 
-    def test_discover_widgets(self):
+    def test_1_discover_widgets(self):
         """
         discover_widgets Should find widgets in INSTALLED_APPS.
 
         When called again, it should not nothing.
 
+        This test must be executed first before any other test messes around
+        with the registered widgets.
+
         """
-        self._unregister_widgets()
         dashboard_widget_pool.discover_widgets()
         self.assertTrue('DummyWidget' in dashboard_widget_pool.widgets)
         self.assertTrue('DummyWidget2' in dashboard_widget_pool.widgets)
@@ -100,13 +92,6 @@ class DashboardWidgetPoolTestCase(WidgetTestCaseMixin, TestCase):
         self.assertTrue('DummyWidget2' in dashboard_widget_pool.widgets)
 
     def test_get_widgets(self):
-        """
-        get_widgets should discover widgets and return them.
-
-        This test doesn't really test the thing. Because we import DummyWidget
-        in this file, the widget already gets added to the pool before this
-        test is executed. Calling ``get_widgets`` in this test will do nothing.
-
-        """
+        """get_widgets should discover widgets and return them."""
         widgets = dashboard_widget_pool.get_widgets()
-        self.assertTrue('DummyWidget' in widgets)
+        self.assertEqual(widgets, dashboard_widget_pool.widgets)
