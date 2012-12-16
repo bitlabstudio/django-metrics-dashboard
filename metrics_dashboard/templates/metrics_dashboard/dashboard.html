@@ -1,13 +1,30 @@
 {% extends "metrics_dashboard/dashboard_base.html" %}
+{% load url from future %}
 
 {% block "main" %}
 <div class="container">
     <div class="row">
         <div class="span12">
             {% for widget in widgets %}
-                asd
+                <div id="widget_{{ widget }}" data-url="{% url "dashboard_api_widget" widget_name=widget %}"></div>
             {% endfor %}
         </div>
     </div>
 </div>
+{% endblock %}
+
+
+{% block "extrajs" %}
+<script>
+$(document).ready(function() {
+    $('div[id^="widget_"]').each(function() {
+        var widget_id = $(this).attr('id');
+        var widget_name = widget_id.replace('widget_', '');
+        var api_url = $(this).attr('data-url');
+        $.get(api_url, function(data) {
+            $('#' + widget_id).html(data);
+        });
+    });
+});
+</script>
 {% endblock %}

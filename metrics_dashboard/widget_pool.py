@@ -56,18 +56,19 @@ class DashboardWidgetPool(object):
                 'DashboardWidgets must be subclasses of DashboardWidgetBase,'
                 ' {0} is not.'.format(widget_cls))
 
-        widget_name = widget_cls.__name__
+        widget = widget_cls()
+        widget_name = widget.get_name()
         if widget_name in self.widgets:
             raise WidgetAlreadyRegistered(
                 'Cannot register {0}, a plugin with this name {1} is already '
                 'registered.'.format(widget_cls, widget_name))
 
-        self.widgets[widget_name] = widget_cls
+        self.widgets[widget_name] = widget
 
     def unregister_widget(self, widget_cls):
         """Unregisters the given widget."""
         if widget_cls.__name__ in self.widgets:
-            del self.widgets[widget_cls.__name__]
+            del self.widgets[widget_cls().get_name()]
 
 
 dashboard_widget_pool = DashboardWidgetPool()

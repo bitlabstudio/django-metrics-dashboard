@@ -8,12 +8,22 @@ from metrics_dashboard.widget_pool import dashboard_widget_pool
 
 class DummyWidget(DashboardWidgetBase):
     """This widget is used by the tests."""
-    pass
+    template_name = 'test_widget_app/dummy_widget.html'
+
+    def get_context_data(self):
+        return {
+            'value': 'Foobar',
+        }
 
 
 class DummyWidget2(DashboardWidgetBase):
     """This widget is used by the tests."""
-    pass
+    template_name = 'test_widget_app/dummy_widget2.html'
+
+    def get_context_data(self):
+        return {
+            'value': 'Barfoo',
+        }
 
 
 dashboard_widget_pool.register_widget(DummyWidget)

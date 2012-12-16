@@ -37,7 +37,7 @@ TEMPLATE_DIRS = (
 COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(
     os.path.dirname(__file__), 'coverage')
 COVERAGE_MODULE_EXCLUDES = [
-    'tests$', 'test_app', 'settings$', 'urls$', 'locale$',
+    'tests$', 'test_widget_app', 'settings$', 'urls$', 'locale$',
     'migrations', 'fixtures', 'admin$', 'django_extensions',
 ]
 
@@ -57,7 +57,7 @@ EXTERNAL_APPS = [
 
 INTERNAL_APPS = [
     'metrics_dashboard',
-    'metrics_dashboard.tests.test_app',
+    'metrics_dashboard.tests.test_widget_app',
 ]
 
 INSTALLED_APPS = EXTERNAL_APPS + INTERNAL_APPS
