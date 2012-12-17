@@ -63,6 +63,45 @@ Usage
 For now: Install it and go visit the URL :) More features coming soon.
 
 
+Creating widgets
+----------------
+
+* Create a new Django app. Per convention, you should call your app something
+  like ``dashboardwidget_yourwidgetname``. This way we can easily search
+  PyPi for ``dashboardwidget`` and will find all widgets that have been
+  published.
+* Give it a file ``dashboard_widget.py``
+* Implement your widget. It should inherit ``DashboardWidgetBase``
+* Your widget needs the following implementations:
+  * a ``template_name`` attribute, just like any Django view
+  * a ``get_context_data`` method. It should return a dictionary
+    of template context variables
+  * a ``update_widget_data`` method. It should get data from a 3rd party API
+    and save it to the widget's model. THen it should send a message to the
+    widget's socket.io channel so that the subscribed browsers know that the
+    widget has new data and needs an update.
+* Register your widget with the ``dashboard_widget_pool``.
+
+Example ``dashboard_widgets.py``::
+
+    from metrics_dashboard.widget_base import DashboardWidgetBase
+    from metrics_dashboard.widget_pool import dashboard_widget_pool
+
+    class DummyWidget(DashboardWidgetBase):
+        """This widget is used by the tests."""
+        template_name = 'dashboardwidget_dummy/dummy_widget.html'
+
+        def get_context_data(self):
+            return {
+                'value': 'Foobar',
+            }
+
+        def update_widget_data(self):
+            # TODO: add example implementation here.
+
+    dashboard_widget_pool.register_widget(DummyWidget)
+
+
 Contribute
 ----------
 
