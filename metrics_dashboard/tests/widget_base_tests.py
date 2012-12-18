@@ -12,10 +12,10 @@ class DashboardWidgetBaseTestCase(TestCase):
     longMessage = True
 
     def test_get_context_data(self):
-        """get_context_data should return an empty dictionary by default."""
+        """get_context_data should return the widget name by default."""
         base = DashboardWidgetBase()
         result = base.get_context_data()
-        self.assertEqual(result, {})
+        self.assertEqual(result['widget_name'], base.get_name())
 
     def test_get_name(self):
         """

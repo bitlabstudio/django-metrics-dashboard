@@ -57,6 +57,27 @@ When you set this to false, anyone can access the dashboard. If you are
 displaying sensitive metrics, you might want to leave this at ``True``.
 
 
+DASHBOARD_MESSENGER_URL
++++++++++++++++++++++++
+
+*Default*: No default, you have to set this.
+
+Set this to the API endpoint of your ``django-socketio-messenger``
+installation. A valid value should look like this::
+
+    http://<IP>:<PORT>/broadcast_channel/
+
+We need this because all messages going through socketio must be sent from
+the same process. However, this app needs to broadcast messages from an
+admin command which get's executed from a cron job, therefore that command
+would be a different process than your wsgi process. As a simple (silly and
+hackish) solution we created `django-socketio-messenger <https://github.com/bitmazk/django-socketio-messenger>`_
+which is really just another mini Django app that functions as your socket.io
+server. Therefore this app would send HTTP requests to your
+``django-socketio-messenger`` which then would broadcast those messages to
+your connected socket.io subscribers.
+
+
 Usage
 -----
 

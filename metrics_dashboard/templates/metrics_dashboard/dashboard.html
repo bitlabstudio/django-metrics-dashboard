@@ -1,4 +1,5 @@
 {% extends "metrics_dashboard/dashboard_base.html" %}
+{% load socketio_tags %}
 {% load url from future %}
 
 {% block "main" %}
@@ -15,15 +16,45 @@
 
 
 {% block "extrajs" %}
+{% socketio %}
 <script>
 $(document).ready(function() {
-    $('div[id^="widget_"]').each(function() {
-        var widget_id = $(this).attr('id');
+
+    function get_template(widget_id) {
+        // Gets the template for the given widget via AJAX
+        var widget_id = widget_id;
         var widget_name = widget_id.replace('widget_', '');
-        var api_url = $(this).attr('data-url');
+        var api_url = $('#' + widget_id).attr('data-url');
         $.get(api_url, function(data) {
             $('#' + widget_id).html(data);
         });
+    }
+
+    $('div[id^="widget_"]').each(function() {
+        // Let's load all widget templates when the page has been loaded.
+        get_template($(this).attr('id'));
+    });
+
+    document.socket = new io.Socket();
+    document.socket.connect();
+
+    document.socket.on('connect', function() {
+        // For each widget we subscribe to a channel
+
+        // We do this so that we can receive a message when the widget's data
+        // has been uploaded.
+        {% for widget in widgets %}
+            document.socket.subscribe('{{ widget }}');
+        {% endfor %}
+    });
+
+    document.socket.on('message', function (message, callback) {
+        // If the widget's data has been uploaded we re-load it's template.
+        var widget = message.replace(/(.+): (.+)/, '$1');
+        var message_str = message.replace(/(.+): (.+)/, '$2');
+        if (message_str === 'update') {
+            get_template('widget_' + widget);
+        }
     });
 });
 </script>

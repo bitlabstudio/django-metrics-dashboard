@@ -15,12 +15,16 @@ class DashboardWidgetBase(object):
         }
     }
 
+    settings = {}
+
     def get_context_data(self):
         """
         Should return a dictionary of template context variables.
 
         """
-        return {}
+        return {
+            'widget_name': self.get_name(),
+        }
 
     def get_name(self):
         """Returns the class name of this widget."""

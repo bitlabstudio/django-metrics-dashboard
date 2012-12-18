@@ -6,6 +6,7 @@ DEBUG = True
 
 
 DASHBOARD_REQUIRE_LOGIN = False
+DASHBOARD_MESSENGER_URL = 'http://127.0.0.1:9000/broadcast_channel/'
 
 
 SITE_ID = 1
@@ -53,6 +54,7 @@ EXTERNAL_APPS = [
     'django.contrib.sites',
     'django_jasmine',
     'django_nose',
+    'django_socketio',
 ]
 
 INTERNAL_APPS = [

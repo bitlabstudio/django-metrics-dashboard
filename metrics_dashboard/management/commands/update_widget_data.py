@@ -10,5 +10,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for widget_name, widget in dashboard_widget_pool.get_widgets().items():
             widget.update_widget_data()
-            self.stdout.write('Successfully updated {0}'.format(
+            self.stdout.write('Successfully updated {0}\n'.format(
                 widget.get_name()))
