@@ -10,15 +10,15 @@ from metrics_dashboard import settings as app_settings
 
 def permission_required(perm, login_url=None, raise_exception=False):
     """
-    Re-implementation of the ``permission_required`` decorator, honors settings.
+    Re-implementation of the permission_required decorator, honors settings.
 
     If ``DASHBOARD_REQUIRE_LOGIN`` is False, this decorator will always return
     ``True``, otherwise it will check for the permission as usual.
 
     """
     def check_perms(user):
-        if not getattr(
-            settings, 'DASHBOARD_REQUIRE_LOGIN', app_settings.REQUIRE_LOGIN):
+        if not getattr(settings, 'DASHBOARD_REQUIRE_LOGIN',
+                       app_settings.REQUIRE_LOGIN):
             return True
         # First check if the user has the permission (even anon users)
         if user.has_perm(perm):

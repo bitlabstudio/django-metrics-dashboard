@@ -4,6 +4,11 @@ from fabric.api import local
 from .fabric_settings import PROJECT_NAME
 
 
+def flake8():
+    """Runs flake8 check against all files."""
+    local('flake8 --statistics metrics_dashboard/.')
+
+
 def lessc():
     """Compiles all less files."""
     local('lessc {0}/static/{0}/css/bootstrap.less'

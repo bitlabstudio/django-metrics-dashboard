@@ -4,7 +4,9 @@ from django.test import TestCase
 from django.core.exceptions import ImproperlyConfigured
 from metrics_dashboard.exceptions import WidgetAlreadyRegistered
 from metrics_dashboard.tests.mixins import WidgetTestCaseMixin
-from metrics_dashboard.tests.test_widget_app.dashboard_widgets import DummyWidget
+from metrics_dashboard.tests.test_widget_app.dashboard_widgets import (
+    DummyWidget,
+)
 from metrics_dashboard.widget_pool import (
     DashboardWidgetPool,
     dashboard_widget_pool,

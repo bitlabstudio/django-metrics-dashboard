@@ -7,7 +7,8 @@ you can actually reach the app's views (provided it has any views, of course).
 from django.conf.urls.defaults import include, patterns, url
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^accounts/login/$',
         'django.contrib.auth.views.login',
         name='auth_login'),
