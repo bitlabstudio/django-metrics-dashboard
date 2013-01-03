@@ -19,7 +19,7 @@ class DashboardWidgetBase(object):
     settings = {}
 
     update_time_format = '%d.%m.%Y %H:%M:%S'
-    update_interval = 3600
+    update_interval = 60
 
     def get_context_data(self):
         """

@@ -4,11 +4,12 @@
 # Packages essential to this app. Needed by anyone who wants to use this app.
 # ===========================================================================
 Django==1.4.3
-django-libs==0.11
+django-libs==0.13
 South==0.7.6
 django-load==1.0.0
 requests==0.14.2
 django-socketio==0.3.5
+lockfile==0.9.1
 
 
 # ===========================================================================
