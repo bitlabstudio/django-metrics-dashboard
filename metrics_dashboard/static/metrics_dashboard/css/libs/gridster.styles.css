@@ -1,0 +1,99 @@
+/* ============================================================================
+   NORMALIZATION
+============================================================================ */
+*  {
+  margin: 0;
+  padding: 0;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
+[hidden] { display: none; }
+
+ul, ol {
+    list-style: none;
+}
+
+
+/* ============================================================================
+   COMMONS
+============================================================================ */
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+body {
+    background-color: #EEEEEE;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: x-small;
+    color: #666666;
+}
+
+a {
+    color: #004756;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 960px;
+}
+
+
+[role='header'] {
+    padding-top: 78px;
+    text-align: center;
+    background: #FFF;
+}
+
+
+/* ============================================================================
+   GRIDSTER STYLES
+============================================================================ */
+.gridsterSection {
+    margin: 3em 0;
+    padding: 7.5em 0 5.5em;
+    background: #004756;
+}
+
+.gridsterSection:hover .gridster {
+    opacity: 1;
+}
+
+.gridster {
+    width: 940px;
+    margin: 0 auto;
+
+    opacity: .8;
+
+    -webkit-transition: opacity .6s;
+    -moz-transition: opacity .6s;
+    -o-transition: opacity .6s;
+    -ms-transition: opacity .6s;
+    transition: opacity .6s;
+}
+
+.gridster .gs_w {
+    background: #FFF;
+    cursor: pointer;
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.gridster .player {
+    -webkit-box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+}
+
+
+.gridster .gs_w.try {
+    background-image: url(../img/sprite.png);
+    background-repeat: no-repeat;
+    background-position: 37px -169px;
+
+}
+
+.gridster .preview-holder {
+    border: none!important;
+    border-radius: 0!important;
+    background: rgba(255,255,255,.2)!important;
+}

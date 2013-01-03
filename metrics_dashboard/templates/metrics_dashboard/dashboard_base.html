@@ -10,8 +10,8 @@
     <meta name="description" content="{% block description %}{% endblock %}">
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="{{ STATIC_URL }}metrics_dashboard/css/bootstrap.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}metrics_dashboard/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}metrics_dashboard/css/libs/jquery.gridster.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}metrics_dashboard/css/libs/gridster.styles.css">
 
     <script src="{{ STATIC_URL }}metrics_dashboard/js/libs/modernizr-2.6.2.min.js"></script>
 </head>
@@ -27,7 +27,7 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}metrics_dashboard/js/libs/jquery-1.8.3.min.js"><\/script>')</script>
-    <script src="{{ STATIC_URL }}metrics_dashboard/js/libs/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}metrics_dashboard/js/libs/jquery.gridster.min.js"></script>
     {% block "extrajs" %}{% endblock %}
 </body>
 </html>

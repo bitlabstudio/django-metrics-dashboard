@@ -3,15 +3,15 @@
 {% load url from future %}
 
 {% block "main" %}
-<div class="container">
-    <div class="row">
-        <div class="span12">
+<section class="gridsterSection">
+    <div class="gridster">
+        <ul>
             {% for widget in widgets %}
-                <div id="widget_{{ widget }}" data-url="{% url "dashboard_api_widget" widget_name=widget %}"></div>
+                <li id="widget_{{ widget }}" data-row="1" data-col="1" data-sizex="1" data-sizey="1" data-url="{% url "dashboard_api_widget" widget_name=widget %}"></li>
             {% endfor %}
-        </div>
+        </ul>
     </div>
-</div>
+</section>
 {% endblock %}
 
 
@@ -19,6 +19,10 @@
 {% socketio %}
 <script>
 $(document).ready(function() {
+    $(".gridster ul").gridster({
+        widget_margins: [10, 10],
+        widget_base_dimensions: [140, 140]
+    });
 
     function get_template(widget_id) {
         // Gets the template for the given widget via AJAX
@@ -30,7 +34,7 @@ $(document).ready(function() {
         });
     }
 
-    $('div[id^="widget_"]').each(function() {
+    $('li[id^="widget_"]').each(function() {
         // Let's load all widget templates when the page has been loaded.
         get_template($(this).attr('id'));
     });
