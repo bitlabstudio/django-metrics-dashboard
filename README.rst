@@ -1,11 +1,15 @@
 Django Metrics Dashboard
 ========================
 
-DO NOT USE THIS! THIS IS AN EARLY ALPHA AND DOES NOT WORK!
-
 A reusable Django app that allows you to display a dashboard with any number
-of widgets to show any data you care about. The widets are updated via
+of widgets to show any data you care about. The widgets are updated via
 socket.io, so you never need to refresh your dashboard.
+
+You need to setup a socket.io-server that accepts incoming subscriptions and
+sends out broadcasts when widgets need an update. For this we have created
+https://github.com/bitmazk/django-socketio-messenger
+
+TODO: Write a blog post about how to set this up on Webfaction.
 
 Prerequisites
 -------------
@@ -14,6 +18,11 @@ You need at least the following packages in your virtualenv:
 
 * Django 1.4.3
 * South
+* django-libs
+* django-load
+* requests
+* django-socketio
+* lockfile
 
 Installation
 ------------
@@ -65,7 +74,9 @@ DASHBOARD_MESSENGER_URL
 Set this to the API endpoint of your ``django-socketio-messenger``
 installation. A valid value should look like this::
 
-    http://<IP>:<PORT>/broadcast_channel/
+    http://<HOST>[:<PORT>]/broadcast_channel/
+
+Depending on your setup you might or might not need to specify a port.
 
 We need this because all messages going through socketio must be sent from
 the same process. However, this app needs to broadcast messages from an
@@ -87,18 +98,21 @@ For now: Install it and go visit the URL :) More features coming soon.
 Creating widgets
 ----------------
 
+* See https://github.com/bitmazk/md-pypispy-users as an example.
 * Create a new Django app. Per convention, you should call your app something
-  like ``dashboardwidget_yourwidgetname``. This way we can easily search
-  PyPi for ``dashboardwidget`` and will find all widgets that have been
+  like ``md_yourwidgetname``. This way we can easily search
+  PyPi for ``md_`` and will find all widgets that have been
   published.
 * Give it a file ``dashboard_widget.py``
 * Implement your widget. It should inherit ``DashboardWidgetBase``
 * Your widget needs the following implementations:
   * a ``template_name`` attribute, just like any Django view
+  * ``sizex`` & ``sizey`` attributes that define the widget size
+  * an ``update_interval`` attribute in seconds.
   * a ``get_context_data`` method. It should return a dictionary
     of template context variables
   * a ``update_widget_data`` method. It should get data from a 3rd party API
-    and save it to the widget's model. THen it should send a message to the
+    and save it to the widget's model. Then it should send a message to the
     widget's socket.io channel so that the subscribed browsers know that the
     widget has new data and needs an update.
 * Register your widget with the ``dashboard_widget_pool``.
@@ -111,6 +125,9 @@ Example ``dashboard_widgets.py``::
     class DummyWidget(DashboardWidgetBase):
         """This widget is used by the tests."""
         template_name = 'dashboardwidget_dummy/dummy_widget.html'
+        sizex = 2
+        sizey = 1
+        update_interval = 60
 
         def get_context_data(self):
             return {
@@ -155,18 +172,6 @@ do the following::
     $ rm db.sqlite
     $ ./manage.py syncdb --migrate
     $ ./manage.py schemamigration metrics_dashboard --auto
-
-
-Compiling the CSS files
------------------------
-
-If you want to make changes to the CSS files, please edit the files
-``metrics-dashboard-variables.less``, ``styles.less`` and
-``responsive-styles.less``. Then run ``fab lessc`` from the root of the
-project.
-
-If you want to setup a file system watcher and compile the ``.css`` files
-automagically, just execute ``./watchmedo-less.sh``.
 
 
 Discuss
