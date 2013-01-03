@@ -18,6 +18,7 @@ class DashboardWidgetBase(object):
 
     settings = {}
 
+    update_time_format = '%d.%m.%Y %H:%M:%S'
     update_interval = 3600
 
     def get_context_data(self):
@@ -63,7 +64,8 @@ class DashboardWidgetBase(object):
 
     def set_last_update(self):
         """Sets the ``LAST_UPDATE`` setting to ``now()``."""
-        self.save_setting('LAST_UPDATE', now().strftime(self.time_format))
+        self.save_setting('LAST_UPDATE', now().strftime(
+            self.update_time_format))
 
     def should_update(self):
         """
@@ -78,7 +80,7 @@ class DashboardWidgetBase(object):
             last_update = datetime(1900, 1, 1)
         else:
             last_update = datetime.strptime(
-                last_update.value, self.time_format)
+                last_update.value, self.update_time_format)
         time_since = now() - last_update
         if time_since.seconds < self.update_interval:
             return False
