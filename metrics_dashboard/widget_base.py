@@ -61,16 +61,16 @@ class DashboardWidgetBase(object):
         setting.save()
         return setting
 
-    def update_widget_data(self):
+    def set_last_update(self):
+        """Sets the ``LAST_UPDATE`` setting to ``now()``."""
+        self.save_setting('LAST_UPDATE', now().strftime(self.time_format))
+
+    def should_update(self):
         """
-        Implement this in your widget in order to update the widget's data.
+        Checks if an update is needed.
 
-        This is the place where you would call some third party API, retrieve
-        some data and save it into your widget's model.
-
-        Make sure that your implementation calls ``super()`` first and checks
-        for the return value. ``0`` means that no update is needed and ``1``
-        means that an update is needed.
+        Checks against ``self.update_interval`` and the ``LAST_UPDATE`` setting
+        if update is needed.
 
         """
         last_update = self.get_setting('LAST_UPDATE')
@@ -81,5 +81,15 @@ class DashboardWidgetBase(object):
                 last_update.value, self.time_format)
         time_since = now() - last_update
         if time_since.seconds < self.update_interval:
-            return 0
-        return 1
+            return False
+        return True
+
+    def update_widget_data(self):
+        """
+        Implement this in your widget in order to update the widget's data.
+
+        This is the place where you would call some third party API, retrieve
+        some data and save it into your widget's model.
+
+        """
+        raise NotImplementedError

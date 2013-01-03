@@ -9,8 +9,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for widget_name, widget in dashboard_widget_pool.get_widgets().items():
-            should_update = widget.update_widget_data()
-            if should_update:
+            if widget.should_update():
+                widget.update_widget_data()
+                widget.set_last_update()
                 message = 'Successfully updated {0}\n'
             else:
                 message = 'No update needed for {0}\n'
