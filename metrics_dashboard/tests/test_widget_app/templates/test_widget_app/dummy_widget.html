@@ -1,18 +1,20 @@
 <style>
-    .dummyWidget {
-        margin-top: 25%;
-        padding: 1em;
-        text-align: center;
-    }
-    .dumyWidget h2 {
-        padding-bottom: 2em;
+    .dummyWidget, .dummyWidget table {
+        height: 100%;
+        width: 100%;
     }
     .dummyWidget p {
         font-weight: bold;
     }
 </style>
 <div class="dummyWidget">
-    <h2>Last update</h2>
-    <p>{{ value|date:"d. M. y" }}</p>
-    <p>{{ value|date:"H:i:s" }}</p>
+    <table>
+        <tr>
+            <td style="vertical-align:middle;text-align:center;">
+                <h2>Last update</h2>
+                <p>{{ value|date:"d. M. y" }}</p>
+                <p>{{ value|date:"H:i:s" }}</p>
+            </td>
+        </tr>
+    </table>
 </div>
