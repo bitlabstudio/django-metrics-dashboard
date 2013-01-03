@@ -68,6 +68,10 @@ class DashboardWidgetBase(object):
         This is the place where you would call some third party API, retrieve
         some data and save it into your widget's model.
 
+        Make sure that your implementation calls ``super()`` first and checks
+        for the return value. ``0`` means that no update is needed and ``1``
+        means that an update is needed.
+
         """
         last_update = self.get_setting('LAST_UPDATE')
         if not last_update:
@@ -77,4 +81,5 @@ class DashboardWidgetBase(object):
                 last_update.value, self.time_format)
         time_since = now() - last_update
         if time_since.seconds < self.update_interval:
-            return
+            return 0
+        return 1
