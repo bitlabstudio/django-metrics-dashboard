@@ -18,6 +18,15 @@
 {% block "extrajs" %}
 {% socketio %}
 <script>
+function reconnect() {
+    if (! document.socket.connected) {
+        document.socket.connect();
+        console.log('reconnecting');
+    }
+    setTimeout('reconnect()', 30000);
+}
+
+
 $(document).ready(function() {
     $(".gridster ul").gridster({
         widget_margins: [10, 10],
@@ -60,6 +69,8 @@ $(document).ready(function() {
             get_template('widget_' + widget);
         }
     });
+
+    reconnect();
 });
 </script>
 {% endblock %}
