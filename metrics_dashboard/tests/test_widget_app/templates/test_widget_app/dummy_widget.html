@@ -1,1 +1,18 @@
-DummyWidget: {{ value.value }}
+<style>
+    .dummyWidget {
+        margin-top: 25%;
+        padding: 1em;
+        text-align: center;
+    }
+    .dumyWidget h2 {
+        padding-bottom: 2em;
+    }
+    .dummyWidget p {
+        font-weight: bold;
+    }
+</style>
+<div class="dummyWidget">
+    <h2>Last update</h2>
+    <p>{{ value|date:"d. M. y" }}</p>
+    <p>{{ value|date:"H:i:s" }}</p>
+</div>

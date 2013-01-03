@@ -6,8 +6,8 @@
 <section class="gridsterSection">
     <div class="gridster">
         <ul>
-            {% for widget in widgets %}
-                <li id="widget_{{ widget }}" data-row="1" data-col="1" data-sizex="1" data-sizey="1" data-url="{% url "dashboard_api_widget" widget_name=widget %}"></li>
+            {% for widget_name, widget in widgets.items %}
+                <li id="widget_{{ widget_name }}" data-row="1" data-col="1" data-sizex="{{ widget.sizex }}" data-sizey="{{ widget.sizey }}" data-url="{% url "dashboard_api_widget" widget_name=widget_name %}"></li>
             {% endfor %}
         </ul>
     </div>
