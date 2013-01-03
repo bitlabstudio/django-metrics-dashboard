@@ -52,7 +52,7 @@ class DashboardAPIWidgetView(PermissionRequiredViewMixin, TemplateView):
 
     """
     def dispatch(self, request, *args, **kwargs):
-        self.widget = dashboard_widget_pool.widgets()[
+        self.widget = dashboard_widget_pool.get_widgets()[
             kwargs.get('widget_name')]
         return super(DashboardAPIWidgetView, self).dispatch(
             request, *args, **kwargs)
