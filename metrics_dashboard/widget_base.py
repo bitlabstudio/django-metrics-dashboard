@@ -1,5 +1,6 @@
 """Base DashboardWidget of the ``django-metrics-dashboard`` app."""
 from django.utils.translation import ugettext_lazy as _
+from django.utils.timezone import datetime, now
 
 from metrics_dashboard.models import DashboardWidgetSettings
 
@@ -16,6 +17,8 @@ class DashboardWidgetBase(object):
     }
 
     settings = {}
+
+    update_interval = 3600
 
     def get_context_data(self):
         """
@@ -66,4 +69,12 @@ class DashboardWidgetBase(object):
         some data and save it into your widget's model.
 
         """
-        raise NotImplementedError()
+        last_update = self.get_setting('LAST_UPDATE')
+        if not last_update:
+            last_update = datetime(1900, 1, 1)
+        else:
+            last_update = datetime.strptime(
+                last_update.value, self.time_format)
+        time_since = now() - last_update
+        if time_since.seconds < self.update_interval:
+            return
