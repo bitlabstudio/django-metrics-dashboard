@@ -39,7 +39,7 @@ $(document).ready(function() {
         get_template($(this).attr('id'));
     });
 
-    document.socket = new io.Socket();
+    document.socket = new io.Socket('{{ SOCKETIO_HOST }}');
     document.socket.connect();
 
     document.socket.on('connect', function() {

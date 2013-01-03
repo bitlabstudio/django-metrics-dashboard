@@ -1,4 +1,5 @@
 """Views of the ``django-metrics-dashboard`` app."""
+from django.conf import settings
 from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
 
@@ -39,7 +40,10 @@ class DashboardView(PermissionRequiredViewMixin, TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super(DashboardView, self).get_context_data(**kwargs)
         widgets = dashboard_widget_pool.get_widgets()
-        ctx.update({'widgets': widgets, })
+        ctx.update({
+            'widgets': widgets,
+            'SOCKETIO_HOST': settings.SOCKETIO_HOST,
+        })
         return ctx
 
 
