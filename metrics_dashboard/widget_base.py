@@ -30,14 +30,20 @@ class DashboardWidgetBase(object):
         """Returns the class name of this widget."""
         return self.__class__.__name__
 
-    def get_setting(self, setting_name):
-        """Returns the setting for this widget from the database."""
+    def get_setting(self, setting_name, default=None):
+        """
+        Returns the setting for this widget from the database.
+
+        :setting_name: The name of the setting.
+        :default: Optional default value if the setting cannot be found.
+
+        """
         try:
             setting = DashboardWidgetSettings.objects.get(
                 widget_name=self.get_name(),
                 setting_name=setting_name)
         except DashboardWidgetSettings.DoesNotExist:
-            setting = None
+            setting = default
         return setting
 
     def save_setting(self, setting_name, value):
