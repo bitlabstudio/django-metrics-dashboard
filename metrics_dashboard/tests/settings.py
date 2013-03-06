@@ -8,6 +8,7 @@ DEBUG = True
 DASHBOARD_REQUIRE_LOGIN = False
 DASHBOARD_MESSENGER_URL = 'http://127.0.0.1:9000/broadcast_channel/'
 
+SOCKETIO_HOST = 'http://127.0.0.1:7070/broadcast_messenger/'
 
 SITE_ID = 1
 
